@@ -1,5 +1,5 @@
-const config = require('openclaw-config');
 const fetch = require('node-fetch');
+const config = require('openclaw-config');
 
 // Loads Helpscout API credentials securely
 const getCredentials = () => {
