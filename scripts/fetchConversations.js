@@ -1,23 +1,23 @@
-const axios = require('axios');
+const fetch = require('node-fetch');
+const { getToken } = require('./getToken');
 
-/**
- * Fetches conversations using the HelpScout API.
- * @param {string} apiKey - Your HelpScout API key.
- * @param {string} endpoint - API endpoint to fetch data from.
- */
-async function fetchConversations(apiKey, endpoint = '/v2/conversations') {
-    try {
-        const response = await axios.get(`https://api.helpscout.net${endpoint}`, {
-            headers: {
-                Authorization: `Bearer ${apiKey}`,
-            },
-        });
-        console.log('Conversations fetched successfully:', response.data);
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching conversations:', error.response?.data || error.message);
-        throw error;
+// Fetch conversations from a specific inbox
+async function fetchConversations(inboxId) {
+  const token = await getToken();
+
+  const response = await fetch(`https://api.helpscout.net/v2/conversations?mailbox=${inboxId}`, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${token}`
     }
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch conversations: ${response.status} ${response.statusText}`);
+  }
+
+  const conversations = await response.json();
+  return conversations;
 }
 
-module.exports = fetchConversations;
+module.exports = { fetchConversations };

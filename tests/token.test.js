@@ -1,11 +1,14 @@
 jest.mock('openclaw-config'); // Automatically mock openclaw-config
-
 const nock = require('nock');
 const { getToken } = require('../index');
 
 describe('Helpscout Skill Tests with Mocked Config', () => {
   beforeEach(() => {
     nock.cleanAll();
+  });
+
+  afterAll(() => {
+    nock.restore();
   });
 
   test('Should fetch Helpscout OAuth token', async () => {
