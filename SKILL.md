@@ -2,41 +2,55 @@
 
 ## Description
 
-This skill interacts with Helpscout to fetch all conversations from a specific inbox. It is designed to streamline the retrieval of customer support conversations directly into OpenClaw, allowing for efficient analysis and follow-up actions.
+This skill interacts with Helpscout to fetch all conversations from specific inboxes. It is designed to streamline the retrieval of customer support conversations directly into OpenClaw, ensuring easy integration and follow-up.
 
 ## Features
-- Fetch all conversations from a designated Helpscout inbox.
-- Ensure secure and authenticated API communication with Helpscout.
-- Handle potential errors, such as network issues or API limits, gracefully.
+- Fetch conversations from multiple Helpscout inboxes.
+- Securely authenticate using an API key and App Secret.
+- Handle potential errors like invalid credentials or network issues gracefully.
 
-## Prerequisites
+## Setup Instructions
 
-1. **Helpscout API Key**  
-   Obtain an API key from your Helpscout dashboard to authenticate requests. Store this securely and add it to the skill's configuration.
+To use this skill, you need to configure Helpscout credentials and specify the IDs of the inboxes you want to fetch conversations from.
 
-2. **Inbox ID**  
-   Identify the specific Helpscout inbox from which you want to fetch conversations. This ID will be required to filter the requests.
+### 1. Retrieve Helpscout API Key & App Secret
+1. Go to your Helpscout account.
+2. Navigate to **Manage > Apps**.
+3. Create or open your app to retrieve the following details:
+   - **API Key**
+   - **App Secret**
 
-3. **Rate Limits**  
-   Be mindful of Helpscout's API rate limits and ensure compliance to avoid disruptions.
+### 2. Collect Inbox IDs
+1. Retrieve the IDs of the inboxes you want to fetch conversations from using Helpscout’s [API documentation](https://developer.helpscout.com/).
 
-## Usage
+### 3. Save Credentials in OpenClaw
+Use the following command to save your Helpscout credentials:
 
-1. **Configure API Key and Inbox ID**  
-   Ensure the skill is provided with the correct credentials and inbox ID.
+```bash
+openclaw gateway config.get | jq '.skills.helpscout = {
+  "apiKey": "your-api-key",
+  "appSecret": "your-app-secret",
+  "inboxIds": ["inbox-id-1", "inbox-id-2"]
+}' | openclaw gateway config.apply
+```
 
-2. **Fetch Conversations**  
-   Use the appropriate command to trigger the conversation retrieval process. The skill will fetch and return all conversations from the specified inbox.
+### 4. Verify Configuration
+To ensure the credentials are properly set, check your configuration:
 
-3. **Error Handling**  
-   If an error occurs (e.g., authentication failure, inbox not found), the skill will log a detailed message to assist with troubleshooting.
+```bash
+openclaw gateway config.get
+```
+Make sure the `helpscout` object looks correct (avoid sharing the `apiKey` or `appSecret`).
 
-## Development Status
+### Usage
+- Once the setup is complete, the skill will securely authenticate and fetch conversations based on the specified inbox IDs.
+- If credentials or inbox IDs are missing or invalid, the skill will throw a detailed error message to help you fix the issue.
 
-- [x] Define scope (fetch all conversations from a specific Helpscout inbox).
-- [ ] Implement API integration with authentication.
-- [ ] Add error handling for API calls.
-- [ ] Test functionality with real Helpscout data.
+### Security Best Practices
+- Never hardcode credentials into your codebase.
+- Use OpenClaw’s `config.apply` system for securely managing sensitive details.
+- Avoid sharing sensitive parts of your configuration output (`apiKey` and `appSecret`) with others.
 
 ## Contribution Guidelines
-If you want to enhance the skill, ensure compliance with Helpscout's API usage policies and document any changes made.
+- Ensure compliance with Helpscout’s API usage policies.
+- Add documentation for any new features added.
