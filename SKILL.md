@@ -1,6 +1,13 @@
 ---
 name: helpscout
 description: Fetches messages from specific Helpscout inboxes
+metadata:
+  {
+    "openclaw":
+      {
+        "requires": { "env": ["API_KEY", "APP_SECRET", "INBOX_IDS"] },
+      },
+  }
 ---
 
 # Helpscout Skill
@@ -33,17 +40,17 @@ Use the following command to save your Helpscout credentials:
 
 ```bash
 cat ~/.openclaw/openclaw.json | jq '.skills.helpscout = {
-  "apiKey": "your-api-key",
-  "appSecret": "your-app-secret",
-  "inboxIds": ["inbox-id-1", "inbox-id-2"]
+  API_KEY: "your-api-key",
+  APP_SECRET: "your-app-secret",
+  INBOX_IDS: ["inbox-id-1", "inbox-id-2"]
 }' | openclaw gateway config.apply
 "entries": {
   "helpscout": {
     "enabled": true,
     "env": {
-      "apiKey": "your-api-key",
-      "appSecret": "your-app-secret",
-      "inboxIds": ["inbox-id-1", "inbox-id-2"]
+      "API_KEY": "your-api-key",
+      "APP_SECRET": "your-app-secret",
+      "INBOX_IDS": ["inbox-id-1", "inbox-id-2"]
     }
   }
 }
@@ -55,7 +62,7 @@ To ensure the credentials are properly set, check your configuration:
 ```bash
 openclaw gateway config.get
 ```
-Make sure the `helpscout` object looks correct (avoid sharing the `apiKey` or `appSecret`).
+Make sure the `helpscout` object looks correct (avoid sharing the `API_KEY` or `APP_SECRET`).
 
 ### Usage
 - Once the setup is complete, the skill will securely authenticate and fetch conversations based on the specified inbox IDs.
@@ -64,7 +71,7 @@ Make sure the `helpscout` object looks correct (avoid sharing the `apiKey` or `a
 ### Security Best Practices
 - Never hardcode credentials into your codebase.
 - Use OpenClaw’s `config.apply` system for securely managing sensitive details.
-- Avoid sharing sensitive parts of your configuration output (`apiKey` and `appSecret`) with others.
+- Avoid sharing sensitive parts of your configuration output (`API_KEY` and `APP_SECRET`) with others.
 
 ## Contribution Guidelines
 - Ensure compliance with Helpscout’s API usage policies.
