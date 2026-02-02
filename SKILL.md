@@ -1,3 +1,8 @@
+---
+name: helpscout
+description: Fetches messages from specific Helpscout inboxes
+---
+
 # Helpscout Skill
 
 ## Description
@@ -27,11 +32,21 @@ To use this skill, you need to configure Helpscout credentials and specify the I
 Use the following command to save your Helpscout credentials:
 
 ```bash
-openclaw gateway config.get | jq '.skills.helpscout = {
+cat ~/.openclaw/openclaw.json | jq '.skills.helpscout = {
   "apiKey": "your-api-key",
   "appSecret": "your-app-secret",
   "inboxIds": ["inbox-id-1", "inbox-id-2"]
 }' | openclaw gateway config.apply
+"entries": {
+  "helpscout": {
+    "enabled": true,
+    "env": {
+      "apiKey": "your-api-key",
+      "appSecret": "your-app-secret",
+      "inboxIds": ["inbox-id-1", "inbox-id-2"]
+    }
+  }
+}
 ```
 
 ### 4. Verify Configuration
