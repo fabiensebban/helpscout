@@ -77,7 +77,10 @@ async function createNote(conversationId, text) {
  * @param {string} [options.status] - Conversation status after reply: 'active', 'pending', 'closed'
  * @param {number} [options.userId] - User ID sending the reply (defaults to authenticated user)
  * @returns {Promise<Object>} - Response from Helpscout API
- */
+ 
+  NOTE: For now, this skill is not allowed the send replies, so this function is not exported.
+        Only notes can be created in a Helpscout ticket.
+*/
 async function sendReply(conversationId, options = {}) {
   const { text, inboxId, customerId, imported = false, status, userId } = options;
 
@@ -142,4 +145,4 @@ async function sendReply(conversationId, options = {}) {
   };
 }
 
-module.exports = { sendReply, createNote };
+module.exports = { /* sendReply ,*/ createNote };
